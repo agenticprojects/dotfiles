@@ -4,4 +4,5 @@
 brew "stow"
 brew "atuin"
 brew "fnm"
+brew "gh"
 

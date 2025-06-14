@@ -31,6 +31,29 @@ Typical package organization:
 - `tmux/` - Tmux configuration (.tmux.conf)
 - `ssh/` - SSH configuration (.ssh/config)
 
+## GitHub Integration
+
+This dotfiles setup includes GitHub CLI (`gh`) for seamless GitHub integration:
+
+### Tools
+- **GitHub CLI (`gh`)**: Included in Brewfile for command-line GitHub operations
+- **Git configuration**: Use `git/` package for GitHub-specific settings
+- **SSH setup**: Use `ssh/` package for GitHub SSH key management
+
+### Common GitHub Workflows
+- `gh auth login` - Authenticate with GitHub
+- `gh repo clone <repo>` - Clone repositories
+- `gh pr create` - Create pull requests
+- `gh issue list` - List issues
+- `stow git` - Apply git configuration package
+- `stow ssh` - Apply SSH configuration package
+
+### Setup Process
+1. Install dependencies: `brew bundle`
+2. Authenticate: `gh auth login`
+3. Apply git config: `stow git`
+4. Apply SSH config: `stow ssh` (if using SSH keys)
+
 ## Development Workflow
 
 1. Create new package directories as needed
