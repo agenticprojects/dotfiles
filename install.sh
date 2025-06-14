@@ -57,15 +57,50 @@ install_xcode_tools() {
     fi
 }
 
+# Check if Homebrew is installed
+check_homebrew() {
+    print_status "Checking for Homebrew..."
+    
+    if command -v brew &> /dev/null; then
+        print_status "Homebrew is already installed at $(command -v brew)"
+        return 0
+    else
+        print_warning "Homebrew is not installed"
+        return 1
+    fi
+}
+
+# Install Homebrew
+install_homebrew() {
+    print_status "Installing Homebrew..."
+    
+    # Download and run the official Homebrew installation script
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    
+    # Add Homebrew to PATH for current session
+    if [[ -f "/opt/homebrew/bin/brew" ]]; then
+        # Apple Silicon Mac
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        print_status "Added Homebrew to PATH (Apple Silicon)"
+    elif [[ -f "/usr/local/bin/brew" ]]; then
+        # Intel Mac
+        eval "$(/usr/local/bin/brew shellenv)"
+        print_status "Added Homebrew to PATH (Intel)"
+    fi
+    
+    # Verify installation
+    if command -v brew &> /dev/null; then
+        print_status "Homebrew installation verified!"
+    else
+        print_error "Homebrew installation failed. Please try again manually."
+        exit 1
+    fi
+}
+
 # Install Homebrew dependencies
 install_homebrew_deps() {
-    if command -v brew &> /dev/null; then
-        print_status "Installing Homebrew dependencies..."
-        brew bundle
-    else
-        print_warning "Homebrew not found. Skipping dependency installation."
-        print_status "Install Homebrew first: /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
-    fi
+    print_status "Installing Homebrew dependencies..."
+    brew bundle
 }
 
 # Main installation function
@@ -75,6 +110,11 @@ main() {
     # Check and install Xcode command line tools if needed
     if ! check_xcode_tools; then
         install_xcode_tools
+    fi
+    
+    # Check and install Homebrew if needed
+    if ! check_homebrew; then
+        install_homebrew
     fi
     
     # Install Homebrew dependencies

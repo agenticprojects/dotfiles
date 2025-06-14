@@ -93,6 +93,18 @@ This repository uses a **Git Flow** branching model:
 - `stow git` - Apply git configuration package
 - `stow ssh` - Apply SSH configuration package
 
+### Commit Message Guidelines
+- Write clear, concise commit messages that describe the actual changes made
+- Focus on the "what" and "why" of the change, not the tools used
+- Do NOT reference Claude Code, AI assistance, or automated generation in commit messages
+- Use imperative mood (e.g., "Add feature" not "Added feature")
+- Keep the first line under 50 characters when possible
+- Examples:
+  - ✅ "Add automated Homebrew installation to install script"
+  - ✅ "Fix SSH configuration path resolution"
+  - ❌ "Update files with Claude Code assistance"
+  - ❌ "AI-generated improvements to shell config"
+
 ### Setup Process
 1. **Initial setup**: Run `./install.sh` to install system dependencies (Xcode tools, Homebrew packages)
 2. Authenticate: `gh auth login`
