@@ -40,27 +40,73 @@ This dotfiles setup includes GitHub CLI (`gh`) for seamless GitHub integration:
 - **Git configuration**: Use `git/` package for GitHub-specific settings
 - **SSH setup**: Use `ssh/` package for GitHub SSH key management
 
+### Git Flow Strategy
+This repository uses a **Git Flow** branching model:
+
+- **`main`** - Production-ready code, protected branch
+- **`develop`** - Integration branch for features
+- **`feature/*`** - Feature development branches
+- **`hotfix/*`** - Emergency fixes for production
+
+### Branching Workflow
+1. **Feature Development**:
+   ```bash
+   git checkout develop
+   git pull origin develop
+   git checkout -b feature/your-feature-name
+   # Make changes
+   git add .
+   git commit -m "Add feature description"
+   git push -u origin feature/your-feature-name
+   gh pr create --base develop --title "Add your feature" --body "Description"
+   ```
+
+2. **Hotfix Process**:
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout -b hotfix/fix-description
+   # Make fixes
+   git add .
+   git commit -m "Fix critical issue"
+   git push -u origin hotfix/fix-description
+   gh pr create --base main --title "Hotfix: description" --body "Fix details"
+   ```
+
+3. **Release Process**:
+   ```bash
+   # Merge develop to main via PR
+   gh pr create --base main --head develop --title "Release: version" --body "Release notes"
+   ```
+
+### Repository Settings
+- ✅ Auto-delete branches after merge
+- ⚠️ Branch protection (requires GitHub Pro for private repos)
+
 ### Common GitHub Workflows
 - `gh auth login` - Authenticate with GitHub
 - `gh repo clone <repo>` - Clone repositories
 - `gh pr create` - Create pull requests
+- `gh pr list` - List pull requests
+- `gh pr merge <number>` - Merge pull requests
 - `gh issue list` - List issues
 - `stow git` - Apply git configuration package
 - `stow ssh` - Apply SSH configuration package
 
 ### Setup Process
-1. Install dependencies: `brew bundle`
+1. **Initial setup**: Run `./install.sh` to install system dependencies (Xcode tools, Homebrew packages)
 2. Authenticate: `gh auth login`
 3. Apply git config: `stow git`
 4. Apply SSH config: `stow ssh` (if using SSH keys)
 
 ## Development Workflow
 
-1. Create new package directories as needed
-2. Place config files in appropriate subdirectory structure
-3. Test with `stow -n <package>` first (dry run)
-4. Apply with `stow <package>`
-5. Use `stow -R <package>` to update existing symlinks after changes
+1. **Initial setup**: Run `./install.sh` to ensure system dependencies (including Xcode command line tools) are installed
+2. Create new package directories as needed
+3. Place config files in appropriate subdirectory structure
+4. Test with `stow -n <package>` first (dry run)
+5. Apply with `stow <package>`
+6. Use `stow -R <package>` to update existing symlinks after changes
 
 ## Next Development Phase Plan
 
