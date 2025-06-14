@@ -77,14 +77,16 @@ install_homebrew() {
     # Download and run the official Homebrew installation script
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     
-    # Add Homebrew to PATH for current session
+    # Add Homebrew to PATH for current session and .zprofile
     if [[ -f "/opt/homebrew/bin/brew" ]]; then
         # Apple Silicon Mac
         eval "$(/opt/homebrew/bin/brew shellenv)"
+        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
         print_status "Added Homebrew to PATH (Apple Silicon)"
     elif [[ -f "/usr/local/bin/brew" ]]; then
         # Intel Mac
         eval "$(/usr/local/bin/brew shellenv)"
+        echo 'eval "$(/usr/local/bin/brew shellenv)"' >> ~/.zprofile
         print_status "Added Homebrew to PATH (Intel)"
     fi
     
